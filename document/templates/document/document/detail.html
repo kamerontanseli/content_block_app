@@ -1,0 +1,31 @@
+{% extends 'document/base.html' %}
+
+{% block body %}
+  <style>
+    img {
+      max-width: 100%;
+    }
+    p {
+      word-wrap: break-word;
+    }
+    .ql-align-center {
+      text-align: center;
+    }
+    .ql-align-right {
+      text-align: right;
+    }
+  </style>
+
+  <div class="container">
+    <h1>{{ object.title }}</h1>
+    <hr>
+    <div class="row">
+      {% for block in object.content.all %}
+        <div class="col-md-{% widthratio 12 block.column 1 %}">
+          {{ block.content | safe }}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

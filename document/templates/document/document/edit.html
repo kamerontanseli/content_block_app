@@ -1,0 +1,61 @@
+{% extends 'document/base.html' %}
+{% load staticfiles %}
+{% block head %}
+<link href="https://cdn.quilljs.com/1.2.3/quill.snow.css" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="{% static 'document/editor/editor.css' %}" rel="stylesheet" />
+
+{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+    <input class="input input-title" placeholder="Document Title" type="text" id="title" value="{{ object.title }}">
+    <hr>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add Block <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" id="addBlock">
+        <li><a href="#" data-col="1">1</a></li>
+        <li><a href="#" data-col="2">1/2</a></li>
+        <li><a href="#" data-col="3">1/3</a></li>
+        <li><a href="#" data-col="4">1/4</a></li>
+      </ul>
+    </div>
+    <div class="blocks row"></div>
+    <div class="text-right">
+      <a href="{% url 'document:document_detail' pk=object.id %}" class="btn btn-info btn-lg">Preview</a>
+      <button id="delete" class="btn btn-danger btn-lg">Delete</button>
+      <button id="save" class="btn btn-primary btn-lg">Save</button>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+  window.Page = window.Page || {};
+  window.Page.Defaults = {
+    USER: +'{{ object.author.id }}',
+    DOCUMENT: +'{{ object.id }}',
+  };
+</script>
+<script src="//cdn.quilljs.com/1.2.3/quill.js"></script>
+<script src="//cdn.quilljs.com/1.2.3/quill.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="{% static 'document/editor/models.js' %}" charset="utf-8"></script>
+<script src="{% static 'document/editor/blocks.js' %}" charset="utf-8"></script>
+<script src="{% static 'document/editor/page.js' %}" charset="utf-8"></script>
+
+<script type="text/javascript">
+  $(function () {
+    $( ".blocks" ).sortable({
+      handle: '.panel-heading'
+    });
+  })
+  if (window.Page) {
+    window.Page.init();
+  }
+</script>
+{% endblock %}

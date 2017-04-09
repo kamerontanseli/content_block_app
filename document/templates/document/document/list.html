@@ -1,0 +1,22 @@
+{% extends 'document/base.html' %}
+
+{% block body %}
+
+  <ul>
+    {% for document in object_list %}
+      <li>
+        <h3>
+          {% if document.author == user %}
+            <a href="{% url 'document:document_update' pk=document.id %}">
+          {% else %}
+            <a href="{% url 'document:document_detail' pk=document.id %}">
+          {% endif %}
+              {{ document.title }}
+            </a>
+        </h3>
+        <p>By b{{ document.author }} and updated at {{ document.updated }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}
